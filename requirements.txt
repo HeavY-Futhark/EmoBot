@@ -1,6 +1,7 @@
 wheel
-pytorch
+torch
 pandas
 scikit-learn
 simpletransformers
 fastapi[all]
+datasets
