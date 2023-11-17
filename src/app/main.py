@@ -1,5 +1,6 @@
 
 from fastapi import FastAPI
+from app.ontology.routing import router as ontology_router
 
 app = FastAPI()
 
@@ -7,7 +8,6 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
+app.include_router(ontology_router, prefix="/ontology")
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+
