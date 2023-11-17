@@ -1,7 +1,11 @@
+# General
 wheel
 torch
 pandas
 scikit-learn
 simpletransformers
 fastapi[all]
+
+# Ontology
+RdfLib
 datasets
