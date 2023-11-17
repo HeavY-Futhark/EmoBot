@@ -1,4 +1,6 @@
+wheel
 pytorch
 pandas
 scikit-learn
 simpletransformers
+fastapi[all]
