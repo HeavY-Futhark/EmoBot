@@ -40,6 +40,7 @@ print("Processed Text:", processed_text)
 
 
 
+
 # Charger le dataset
 dataset = load_dataset('sem_eval_2018_task_1', 'subtask5.english')
 print(dataset)
