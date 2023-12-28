@@ -1,6 +1,6 @@
 from pprint import pp
 from fastapi import APIRouter
-from app.ontology.service import create_emonto
+from ontology.service import create_emonto
 
 router = APIRouter()
 

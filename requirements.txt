@@ -5,7 +5,9 @@ pandas
 scikit-learn
 simpletransformers
 fastapi[all]
+datasets
 
 # Ontology
 RdfLib
-datasets
+
+urllib3<2
