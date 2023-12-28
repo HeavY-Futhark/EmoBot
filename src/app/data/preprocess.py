@@ -1,48 +1,53 @@
-import re
-import numpy as np
-from nltk.corpus import stopwords
-from sklearn.preprocessing import MultiLabelBinarizer
-from sentence_transformers import SentenceTransformer
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')  # For lemmatization
 
-def preprocess_text(raw_post):
+import spacy
+#!python -m spacy download en_core_web_sm  # For Spacy's English model
+
+
+
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import spacy
+
+# Load the Spacy model for more sophisticated tokenization and part-of-speech tagging.
+nlp = spacy.load("en_core_web_sm")
+
+def enhanced_preprocess_text(raw_text, use_lemmatization=True):
     # Configure stopwords set
     stops = set(stopwords.words("english"))
 
     # Remove non-letters and lower case
-    letters_only = re.sub("[^a-zA-Z]", " ", raw_post)
+    letters_only = re.sub("[^a-zA-Z]", " ", raw_text)
     words = letters_only.lower().split()
 
-    # Remove stopwords
-    meaningful_words = [word for word in words if word not in stops]
+    # Use Spacy for more sophisticated tokenization and lemmatization
+    doc = nlp(' '.join(words))
+
+    # Initialize WordNetLemmatizer
+    lemmatizer = WordNetLemmatizer()
+
+    clean_words = []
+
+    for word in doc:
+        # Handling Stopwords
+        if word.text not in stops:
+            # Lemmatization (optional)
+            if use_lemmatization:
+                lemma = word.lemma_
+                clean_words.append(lemma)
+            else:
+                clean_words.append(word.text)
 
     # Join the words back into one string
-    clean_text = " ".join(meaningful_words)
+    clean_text = " ".join(clean_words)
     return clean_text
 
-def preprocess_semeval_data(dataset, transformer_model):
-    # Ensure the 'train' dataset is properly loaded and contains the 'text' field
-    texts = [preprocess_text(example['text']) for example in dataset['train']]
-
-    # Assuming you are working with a dataset that has emotion labels in a structured format
-    # You need to adjust this part based on your specific dataset structure.
-    # Here is an example assuming binary labels for each emotion category.
-    emotions = []
-    for example in dataset['train']:
-        example_emotions = [
-            example.get('anger', 0),
-            example.get('anticipation', 0),
-            example.get('disgust', 0),
-            example.get('fear', 0),
-            example.get('joy', 0),
-            example.get('sadness', 0),
-            example.get('surprise', 0),
-            example.get('trust', 0)
-        ]
-        emotions.append(example_emotions)
-
-    # Convert texts to embeddings using the provided transformer model
-    text_embeddings = transformer_model.encode(texts)
-
-    # Convert emotion labels into binary vectors if not already in that format
-    # Assuming emotions is a list of lists with binary values
-    return text_embeddings, np.array(emotions)
+# Example usage:
+text_example = "Here's an example sentence! Isn't it great?"
+print(enhanced_preprocess_text(text_example))
