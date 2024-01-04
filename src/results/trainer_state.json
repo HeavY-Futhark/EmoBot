@@ -1,0 +1,165 @@
+{
+  "best_metric": null,
+  "best_model_checkpoint": null,
+  "epoch": 4.970760233918129,
+  "eval_steps": 500,
+  "global_step": 8500,
+  "is_hyper_param_search": false,
+  "is_local_process_zero": true,
+  "is_world_process_zero": true,
+  "log_history": [
+    {
+      "epoch": 0.29,
+      "learning_rate": 5e-05,
+      "loss": 0.4823,
+      "step": 500
+    },
+    {
+      "epoch": 0.58,
+      "learning_rate": 4.68944099378882e-05,
+      "loss": 0.3598,
+      "step": 1000
+    },
+    {
+      "epoch": 0.88,
+      "learning_rate": 4.3788819875776396e-05,
+      "loss": 0.3389,
+      "step": 1500
+    },
+    {
+      "epoch": 1.0,
+      "eval_accuracy": 0.23043878490334457,
+      "eval_classification_report": "              precision    recall  f1-score   support\n\n       anger       0.78      0.74      0.76      1101\nanticipation       0.32      0.02      0.04       425\n     disgust       0.75      0.70      0.72      1099\n        fear       0.82      0.56      0.67       485\n         joy       0.94      0.61      0.74      1442\n        love       1.00      0.00      0.01       516\n    optimism       0.78      0.53      0.63      1143\n   pessimism       0.00      0.00      0.00       375\n     sadness       0.78      0.55      0.64       960\n    surprise       0.90      0.05      0.10       170\n       trust       0.00      0.00      0.00       153\n\n   micro avg       0.80      0.49      0.61      7869\n   macro avg       0.64      0.34      0.39      7869\nweighted avg       0.75      0.49      0.56      7869\n samples avg       0.71      0.52      0.57      7869\n",
+      "eval_hamming_loss": 0.13777232279840443,
+      "eval_loss": 0.3304705321788788,
+      "eval_runtime": 120.0774,
+      "eval_samples_per_second": 27.141,
+      "eval_steps_per_second": 0.849,
+      "step": 1710
+    },
+    {
+      "epoch": 1.17,
+      "learning_rate": 4.0683229813664596e-05,
+      "loss": 0.3096,
+      "step": 2000
+    },
+    {
+      "epoch": 1.46,
+      "learning_rate": 3.7577639751552796e-05,
+      "loss": 0.2848,
+      "step": 2500
+    },
+    {
+      "epoch": 1.75,
+      "learning_rate": 3.4472049689440996e-05,
+      "loss": 0.2802,
+      "step": 3000
+    },
+    {
+      "epoch": 2.0,
+      "eval_accuracy": 0.2657256827247622,
+      "eval_classification_report": "              precision    recall  f1-score   support\n\n       anger       0.81      0.70      0.75      1101\nanticipation       0.62      0.07      0.12       425\n     disgust       0.75      0.69      0.72      1099\n        fear       0.85      0.62      0.72       485\n         joy       0.92      0.73      0.81      1442\n        love       0.82      0.31      0.45       516\n    optimism       0.75      0.69      0.72      1143\n   pessimism       0.00      0.00      0.00       375\n     sadness       0.84      0.50      0.62       960\n    surprise       0.53      0.12      0.19       170\n       trust       0.00      0.00      0.00       153\n\n   micro avg       0.81      0.55      0.66      7869\n   macro avg       0.62      0.40      0.46      7869\nweighted avg       0.75      0.55      0.62      7869\n samples avg       0.75      0.58      0.62      7869\n",
+      "eval_hamming_loss": 0.126391252196714,
+      "eval_loss": 0.3132435381412506,
+      "eval_runtime": 120.315,
+      "eval_samples_per_second": 27.087,
+      "eval_steps_per_second": 0.848,
+      "step": 3420
+    },
+    {
+      "epoch": 2.05,
+      "learning_rate": 3.136645962732919e-05,
+      "loss": 0.2736,
+      "step": 3500
+    },
+    {
+      "epoch": 2.34,
+      "learning_rate": 2.826086956521739e-05,
+      "loss": 0.2207,
+      "step": 4000
+    },
+    {
+      "epoch": 2.63,
+      "learning_rate": 2.515527950310559e-05,
+      "loss": 0.2299,
+      "step": 4500
+    },
+    {
+      "epoch": 2.92,
+      "learning_rate": 2.204968944099379e-05,
+      "loss": 0.2236,
+      "step": 5000
+    },
+    {
+      "epoch": 3.0,
+      "eval_accuracy": 0.25590671985271557,
+      "eval_classification_report": "              precision    recall  f1-score   support\n\n       anger       0.79      0.76      0.78      1101\nanticipation       0.47      0.12      0.19       425\n     disgust       0.74      0.73      0.74      1099\n        fear       0.85      0.64      0.73       485\n         joy       0.90      0.76      0.82      1442\n        love       0.72      0.47      0.56       516\n    optimism       0.85      0.40      0.54      1143\n   pessimism       0.49      0.12      0.19       375\n     sadness       0.73      0.64      0.68       960\n    surprise       0.55      0.16      0.25       170\n       trust       0.40      0.01      0.03       153\n\n   micro avg       0.79      0.57      0.66      7869\n   macro avg       0.68      0.44      0.50      7869\nweighted avg       0.76      0.57      0.63      7869\n samples avg       0.75      0.59      0.63      7869\n",
+      "eval_hamming_loss": 0.1278975703645848,
+      "eval_loss": 0.32195842266082764,
+      "eval_runtime": 119.673,
+      "eval_samples_per_second": 27.233,
+      "eval_steps_per_second": 0.852,
+      "step": 5130
+    },
+    {
+      "epoch": 3.22,
+      "learning_rate": 1.894409937888199e-05,
+      "loss": 0.1897,
+      "step": 5500
+    },
+    {
+      "epoch": 3.51,
+      "learning_rate": 1.5838509316770185e-05,
+      "loss": 0.1709,
+      "step": 6000
+    },
+    {
+      "epoch": 3.8,
+      "learning_rate": 1.2732919254658385e-05,
+      "loss": 0.1715,
+      "step": 6500
+    },
+    {
+      "epoch": 4.0,
+      "eval_accuracy": 0.2712488493402884,
+      "eval_classification_report": "              precision    recall  f1-score   support\n\n       anger       0.82      0.71      0.76      1101\nanticipation       0.52      0.07      0.12       425\n     disgust       0.78      0.66      0.71      1099\n        fear       0.82      0.67      0.74       485\n         joy       0.87      0.81      0.84      1442\n        love       0.68      0.54      0.60       516\n    optimism       0.78      0.56      0.65      1143\n   pessimism       0.44      0.02      0.04       375\n     sadness       0.79      0.59      0.67       960\n    surprise       0.50      0.18      0.26       170\n       trust       0.00      0.00      0.00       153\n\n   micro avg       0.80      0.58      0.67      7869\n   macro avg       0.64      0.44      0.49      7869\nweighted avg       0.75      0.58      0.64      7869\n samples avg       0.75      0.60      0.63      7869\n",
+      "eval_hamming_loss": 0.12477335490529722,
+      "eval_loss": 0.3344286382198334,
+      "eval_runtime": 120.1549,
+      "eval_samples_per_second": 27.123,
+      "eval_steps_per_second": 0.849,
+      "step": 6840
+    },
+    {
+      "epoch": 4.09,
+      "learning_rate": 9.627329192546584e-06,
+      "loss": 0.1579,
+      "step": 7000
+    },
+    {
+      "epoch": 4.39,
+      "learning_rate": 6.521739130434783e-06,
+      "loss": 0.1308,
+      "step": 7500
+    },
+    {
+      "epoch": 4.68,
+      "learning_rate": 3.4161490683229816e-06,
+      "loss": 0.131,
+      "step": 8000
+    },
+    {
+      "epoch": 4.97,
+      "learning_rate": 3.1055900621118013e-07,
+      "loss": 0.125,
+      "step": 8500
+    }
+  ],
+  "logging_steps": 500,
+  "max_steps": 8550,
+  "num_train_epochs": 5,
+  "save_steps": 500,
+  "total_flos": 8944393708314624.0,
+  "trial_name": null,
+  "trial_params": null
+}
