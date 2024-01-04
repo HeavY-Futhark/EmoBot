@@ -6,7 +6,8 @@ scikit-learn
 simpletransformers
 fastapi[all]
 datasets
-
+numpy
+transformers[torch]
 # Ontology
 RdfLib
 
