@@ -13,33 +13,9 @@ from nltk.corpus import stopwords
 import re
 from sklearn.preprocessing import MultiLabelBinarizer
 from sentence_transformers import SentenceTransformer
-from tqdm import tqdm  # progress bar
-from sklearn.metrics import accuracy_score
+from tqdm import tqdm  # Import tqdm
 
-
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('wordnet')  # For lemmatization
-
-import spacy
-#!python -m spacy download en_core_web_sm  # For Spacy's English model
-
-
-
-import re
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
-import spacy
-from sklearn.metrics import hamming_loss
-
-# Load the Spacy model for more sophisticated tokenization and part-of-speech tagging.
-nlp = spacy.load("en_core_web_sm")
-
-def enhanced_preprocess_text(raw_text, use_lemmatization=True):
-    # Configure stopwords set
+def preprocess_text(raw_tweet):
     stops = set(stopwords.words("english"))
 
     # Remove non-letters and lower case
@@ -105,9 +81,7 @@ def create_mlp_models(transformers):
         mlps.append(mlp)
     return mlps
 
-def train_models(mlps, X_train, y_train, X_val, y_val):
-    print("Training...")
-    training_loss = []
+def train_models(mlps, X_train, y_train):
     for idx, mlp in enumerate(tqdm(mlps, desc="Training Models")):
         print(f"Training MLP {idx+1}/{len(mlps)}...")
         mlp.fit(X_train, y_train)
@@ -121,14 +95,6 @@ def evaluate_models(mlps, X_test, y_test):
         y_pred = mlp.predict(X_test)
         print(f"Model {idx} Report:")
         print(classification_report(y_test, y_pred))
-        
-        # Calculate accuracy
-        accuracy = accuracy_score(y_test, y_pred)
-        print("Accuracy: ", accuracy)
-        
-        # Calculate and print the Hamming Loss
-        h_loss = hamming_loss(y_test, y_pred)
-        print("Hamming Loss:", h_loss)
 
 def save_models(mlps, save_dir):
     for idx, mlp in enumerate(mlps):
