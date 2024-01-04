@@ -1,11 +1,11 @@
-# train_model.py continuation
+# train_model.py (former version (v2) using transformers - DO NOT USE)
 from sentence_transformers import SentenceTransformer
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from joblib import dump  # For saving models
 from datasets import load_dataset  # Import the load_dataset function
-#from data.preprocess import preprocess_semeval_data
+
 
 
 import numpy as np
@@ -33,6 +33,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import spacy
+from sklearn.metrics import hamming_loss
 
 # Load the Spacy model for more sophisticated tokenization and part-of-speech tagging.
 nlp = spacy.load("en_core_web_sm")
@@ -67,13 +68,6 @@ def enhanced_preprocess_text(raw_text, use_lemmatization=True):
     clean_text = " ".join(clean_words)
     return clean_text
 
-def preprocess_text(raw_tweet):
-    stops = set(stopwords.words("english"))
-    letters_only = re.sub("[^a-zA-Z]", " ", raw_tweet)
-    words = letters_only.lower().split()
-    meaningful_words = [w for w in words if w not in stops]
-    return " ".join(meaningful_words)
-
 def preprocess_semeval_data(dataset, transformer_model):
     # Extract tweet texts
     #texts = [preprocess_text(example['Tweet']) for example in dataset['train']]
@@ -97,7 +91,9 @@ def preprocess_semeval_data(dataset, transformer_model):
 
 def initialize_transformers():
     model_names = [
-        'roberta-large-nli-stsb-mean-tokens'
+        'roberta-large-nli-stsb-mean-tokens',
+        'distilbert-base-nli-mean-tokens', 
+        'bert-large-nli-stsb-mean-tokens'
     ]
     transformers = [SentenceTransformer(model) for model in model_names]
     return transformers
@@ -109,21 +105,30 @@ def create_mlp_models(transformers):
         mlps.append(mlp)
     return mlps
 
-def train_models(mlps, X_train, y_train):
-    print("training...")
+def train_models(mlps, X_train, y_train, X_val, y_val):
+    print("Training...")
+    training_loss = []
     for idx, mlp in enumerate(tqdm(mlps, desc="Training Models")):
         print(f"Training MLP {idx+1}/{len(mlps)}...")
         mlp.fit(X_train, y_train)
         tqdm.write(f"Completed MLP {idx+1}/{len(mlps)}")
+        # After training, append the loss to the training_loss list
+        training_loss.append(mlp.loss_)  # loss_ attribute gives the loss of the MLP
+    return training_loss
 
 def evaluate_models(mlps, X_test, y_test):
     for idx, mlp in enumerate(mlps):
         y_pred = mlp.predict(X_test)
         print(f"Model {idx} Report:")
         print(classification_report(y_test, y_pred))
+        
         # Calculate accuracy
         accuracy = accuracy_score(y_test, y_pred)
         print("Accuracy: ", accuracy)
+        
+        # Calculate and print the Hamming Loss
+        h_loss = hamming_loss(y_test, y_pred)
+        print("Hamming Loss:", h_loss)
 
 def save_models(mlps, save_dir):
     for idx, mlp in enumerate(mlps):
@@ -140,8 +145,8 @@ if __name__ == "__main__":
     # Inspect the first example of the training set
     print(dataset['train'][0])
 
-     # Choose one of the transformers as the model for creating embeddings
-    transformer_model = transformers[0]  # For example, using the first one
+    # Choose one of the transformers as the model for creating embeddings
+    transformer_model = transformers[2]
 
     # Preprocess the data using the function from preprocess.py
     X, y = preprocess_semeval_data(dataset, transformer_model)
@@ -151,7 +156,10 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 
     # Train each MLP with data
-    train_models(mlps, X_train, y_train)
+    training_loss = train_models(mlps, X_train, y_train, X_test, y_test)  # Assuming X_test, y_test as validation data here
+
+    # Print the training loss
+    print("Training Loss for each model:", training_loss)
 
     # Evaluate models on the test set
     evaluate_models(mlps, X_test, y_test)
