@@ -13,7 +13,59 @@ from nltk.corpus import stopwords
 import re
 from sklearn.preprocessing import MultiLabelBinarizer
 from sentence_transformers import SentenceTransformer
-from tqdm import tqdm  # Import tqdm
+from tqdm import tqdm  # progress bar
+from sklearn.metrics import accuracy_score
+
+
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')  # For lemmatization
+
+import spacy
+#!python -m spacy download en_core_web_sm  # For Spacy's English model
+
+
+
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+import spacy
+
+# Load the Spacy model for more sophisticated tokenization and part-of-speech tagging.
+nlp = spacy.load("en_core_web_sm")
+
+def enhanced_preprocess_text(raw_text, use_lemmatization=True):
+    # Configure stopwords set
+    stops = set(stopwords.words("english"))
+
+    # Remove non-letters and lower case
+    letters_only = re.sub("[^a-zA-Z]", " ", raw_text)
+    words = letters_only.lower().split()
+
+    # Use Spacy for more sophisticated tokenization and lemmatization
+    doc = nlp(' '.join(words))
+
+    # Initialize WordNetLemmatizer
+    lemmatizer = WordNetLemmatizer()
+
+    clean_words = []
+
+    for word in doc:
+        # Handling Stopwords
+        if word.text not in stops:
+            # Lemmatization (optional)
+            if use_lemmatization:
+                lemma = word.lemma_
+                clean_words.append(lemma)
+            else:
+                clean_words.append(word.text)
+
+    # Join the words back into one string
+    clean_text = " ".join(clean_words)
+    return clean_text
 
 def preprocess_text(raw_tweet):
     stops = set(stopwords.words("english"))
@@ -24,23 +76,23 @@ def preprocess_text(raw_tweet):
 
 def preprocess_semeval_data(dataset, transformer_model):
     # Extract tweet texts
-    texts = [preprocess_text(example['Tweet']) for example in dataset['train']]
+    #texts = [preprocess_text(example['Tweet']) for example in dataset['train']]
+    texts = [enhanced_preprocess_text(example['Tweet']) for example in dataset['train']]
 
+    
     # Extract emotion labels
     emotion_labels = ['anger', 'anticipation', 'disgust', 'fear', 'joy', 'love', 'optimism', 'pessimism', 'sadness', 'surprise', 'trust']
     emotions = []
     for example in tqdm(dataset['train'], desc="Extracting Emotions"):
         example_emotions = [example[emotion] for emotion in emotion_labels]
         emotions.append(example_emotions)
+       
 
     # Convert texts to embeddings using the provided transformer model
-    text_embeddings = transformer_model.encode(texts)
+    text_embeddings = transformer_model.encode(texts, show_progress_bar=True)
+
 
     return text_embeddings, np.array(emotions)
-
-# Other parts of the script remain the same...
-
-
 
 
 def initialize_transformers():
@@ -58,6 +110,7 @@ def create_mlp_models(transformers):
     return mlps
 
 def train_models(mlps, X_train, y_train):
+    print("training...")
     for idx, mlp in enumerate(tqdm(mlps, desc="Training Models")):
         print(f"Training MLP {idx+1}/{len(mlps)}...")
         mlp.fit(X_train, y_train)
@@ -68,6 +121,9 @@ def evaluate_models(mlps, X_test, y_test):
         y_pred = mlp.predict(X_test)
         print(f"Model {idx} Report:")
         print(classification_report(y_test, y_pred))
+        # Calculate accuracy
+        accuracy = accuracy_score(y_test, y_pred)
+        print("Accuracy: ", accuracy)
 
 def save_models(mlps, save_dir):
     for idx, mlp in enumerate(mlps):
@@ -90,6 +146,7 @@ if __name__ == "__main__":
     # Preprocess the data using the function from preprocess.py
     X, y = preprocess_semeval_data(dataset, transformer_model)
 
+    print("preprocess ok")
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
 
@@ -100,4 +157,4 @@ if __name__ == "__main__":
     evaluate_models(mlps, X_test, y_test)
 
     # Save the trained models
-    save_models(mlps, 'src/models/saved_models')
+    save_models(mlps, 'saved_models')
