@@ -118,6 +118,11 @@ def main():
     print(results)
     #Save the trained model
     model.save_pretrained("./saved_model")
+    import torch
+
+    # Assuming 'model' is your model instance
+    torch.save(model.state_dict(), "./saved_model/pytorch_model.bin")
+
 
 
 #Run the main function
