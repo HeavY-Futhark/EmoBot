@@ -8,6 +8,7 @@ import numpy as np
 from datasets import load_dataset
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, Trainer, TrainingArguments
 from sklearn.metrics import classification_report, accuracy_score,  hamming_loss
+import torch
 #export WANDB_DISABLED=true #write this in your terminal to not get wand message, otherwise type 3
 
 def main():
@@ -118,6 +119,8 @@ def main():
     print(results)
     #Save the trained model
     model.save_pretrained("./saved_model")
+    torch.save(model.state_dict(), "./saved_model/pytorch_model.bin")
+
 
 
 #Run the main function
