@@ -14,7 +14,7 @@ from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
 
 
-dataset = load_dataset("sem_eval_2018_task_1")
+dataset = load_dataset("sem_eval_2018_task_1", "subtask5.english")
 data_train = dataset["train"]
 data_test = dataset["test"]
 

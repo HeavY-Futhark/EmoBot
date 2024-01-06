@@ -5,6 +5,7 @@ pandas
 scikit-learn
 simpletransformers
 fastapi[all]
+sqlmodel
 
 # Ontology
 RdfLib
