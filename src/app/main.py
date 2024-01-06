@@ -1,6 +1,5 @@
-
 from fastapi import FastAPI
-from app.ontology.routing import router as ontology_router
+from ontology.routing import router as ontology_router
 
 app = FastAPI()
 

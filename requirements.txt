@@ -7,6 +7,10 @@ simpletransformers
 fastapi[all]
 sqlmodel
 
+datasets
+numpy
+transformers[torch]
 # Ontology
 RdfLib
-datasets
+
+urllib3<2
