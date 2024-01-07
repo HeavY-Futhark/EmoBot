@@ -5,6 +5,8 @@ pandas
 scikit-learn
 simpletransformers
 fastapi[all]
+sqlmodel
+
 datasets
 numpy
 transformers[torch]

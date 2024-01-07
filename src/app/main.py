@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-#from ontology.routing import router as ontology_router
+from ontology.routing import router as ontology_router
 
 app = FastAPI()
 
@@ -7,6 +7,6 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-#app.include_router(ontology_router, prefix="/ontology")
+app.include_router(ontology_router, prefix="/ontology", tags=["ontology"])
 
 
