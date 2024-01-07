@@ -106,13 +106,17 @@ def predict_emotion(sentence, model_path):
 
     return emotion_vector, detected_emotions
 
-if __name__ == "__main__":
+
+def main(test_sentence):
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     tokenizer.save_pretrained("./saved_model")
-
-    test_sentence = "I am so not happy to join it! This is not great :)"
     print("Original text:", test_sentence)
     model_path = "./saved_model"
     emotion_vector, detected_emotions = predict_emotion(test_sentence, model_path)
     print("Emotion Vector:", emotion_vector)
     print("Detected Emotions:", detected_emotions)
+
+if __name__ == "__main__":
+    test_sentence = "I am so not happy to join it! This is not great :)"
+    main(test_sentence)
+    
